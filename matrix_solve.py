@@ -127,7 +127,7 @@ def initialize_CN_matrix(timesteps, spacesteps, X_max, X_min, T, r, sigma):
 if __name__ == "__main__":
 
     # details for the algorithm
-    method = 'FTCS' #'CN'
+    method = 'CN' #'FTCS'
     spacesteps = 500
     timesteps = 1000
     r = 0.04
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     delta_list = np.array(delta_list)
 
     ############ Pretty plots #############
-    # we cut off the higher S values since they're of no use to us and only used for calculation
+    # we cut off the lower/higher S values since they're of no use to us and only used for calculation
 
     plt.plot(S_list[:int(spacesteps/1.2)], data[-1][:int(spacesteps/1.2)])
     plt.xlabel('Stock price ($)')
@@ -190,9 +190,11 @@ if __name__ == "__main__":
     plt.show()
 
     # for option values
-    data = data[:, 0:int(spacesteps/1.2)]
+    data = data[:, int(spacesteps/1.45):int(spacesteps/1.2)]
     ny, nx = data.shape
-    x = np.array(S_list[:int(spacesteps/1.2)])
+    x = np.array(S_list[int(spacesteps/1.45):int(spacesteps/1.2)])
+    print(x)
+    print(data[-1])
     y = np.linspace(0,1,ny)
     xv, yv = np.meshgrid(x,y)
     fig = plt.figure()
@@ -202,12 +204,13 @@ if __name__ == "__main__":
     ax.set_ylabel('Time until expiration (yrs)')
     ax.set_zlabel('Option value ($)')
     ax.set_title(f'Option values ({method} method)')
+    fig.colorbar(data3d)
     plt.show()
 
     # for deltas
-    delta_list = delta_list[:, 0:int(spacesteps/1.2)]
+    delta_list = delta_list[:, int(spacesteps/1.45):int(spacesteps/1.2)]
     ny, nx = np.array(delta_list).shape
-    x = np.array(S_list[:int(spacesteps/1.2)])
+    x = np.array(S_list[int(spacesteps/1.45):int(spacesteps/1.2)])
     y = np.linspace(0,1,ny)
     xv, yv = np.meshgrid(x,y)
     fig = plt.figure()
@@ -217,6 +220,7 @@ if __name__ == "__main__":
     ax.set_ylabel('Time until expiration (yrs)')
     ax.set_zlabel('Delta value')
     ax.set_title(f'Delta values ({method} method)')
+    fig.colorbar(data3d)
     plt.show()
 
     # some simple functions for errors
