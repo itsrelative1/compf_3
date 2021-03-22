@@ -127,16 +127,16 @@ def initialize_CN_matrix(timesteps, spacesteps, X_max, X_min, T, r, sigma):
 if __name__ == "__main__":
 
     # details for the algorithm
-    method = 'CN' #'FTCS'
-    spacesteps = 500
-    timesteps = 1000
+    method = 'FTCS' #'CN'
+    spacesteps = 300
+    timesteps = 3333
     r = 0.04
     T = 1
     sigma = 0.3
     X_min = -2
     X_max = 7
     K = 110
-    S_0 = 100
+    S_0 = 120
     dx = (X_max - X_min)/(spacesteps-1)
 
     # initialize the FTCS or CN details
@@ -193,8 +193,6 @@ if __name__ == "__main__":
     data = data[:, int(spacesteps/1.45):int(spacesteps/1.2)]
     ny, nx = data.shape
     x = np.array(S_list[int(spacesteps/1.45):int(spacesteps/1.2)])
-    print(x)
-    print(data[-1])
     y = np.linspace(0,1,ny)
     xv, yv = np.meshgrid(x,y)
     fig = plt.figure()
