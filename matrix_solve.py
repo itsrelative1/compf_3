@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-def solve_system(B, A, V, f, timesteps):
+def solve_system(B, A, V, f, timesteps, X_max):
     """
     Takes the linear systems specified by the FTCS/CN methods and solves them.
     """
@@ -21,7 +21,7 @@ def solve_system(B, A, V, f, timesteps):
         V = V_new
 
         # manually set the boundaries
-        V_new[-1] = np.exp(7); V_new[0] = 0
+        V_new[-1] = np.exp(X_max); V_new[0] = 0
 
         # save the data
         V_data.append(V)
@@ -157,7 +157,7 @@ if __name__ == "__main__":
     V[-1] = np.exp(X_max)
 
     # solve the system
-    data = solve_system(B,A,V,f,timesteps)
+    data = solve_system(B,A,V,f,timesteps, X_max)
 
     # print the option value at t=0 for the wanted S_0
     S_list = [np.exp(X) for X in X_list]
